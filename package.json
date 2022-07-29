@@ -1,0 +1,23 @@
+{
+	"name": "CDDABrowser",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"package-win": "electron-packager . barotrauma-talent-manager --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/icons/icon.ico --prune=true --out=release-builds",
+		"package-linux": "electron-packager . barotrauma-talent-manager --overwrite --asar --platform=linux --arch=x64 --icon=assets/icons/icon.png --prune=true --out=release-builds"
+	},
+	"author": "Cyka",
+	"license": "ISC",
+	"devDependencies": {
+		"electron": "^19.0.10",
+		"electron-packager": "^15.5.1"
+	},
+	"dependencies": {
+		"bootstrap": "^5.2.0",
+		"jquery": "^3.6.0",
+		"node": "^18.5.0",
+		"xml-js": "^1.6.11"
+	}
+}

@@ -1,0 +1,6 @@
+﻿.idea
+node_modules
+subterfugetrauma-win32-x64
+package-lock.json
+*.rar
+release-builds
