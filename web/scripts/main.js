@@ -22,9 +22,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 		Object.keys(data).forEach((key) => {
 			let value = itemResolver.resolve(key, data[key])
+			// todo handle submits for the input
 			let element = htmlToElement(`<tr>
 	<td class="col-2">${key}</td>
-	<td class="col-10">${value}</td>
+	<td class="col-10"><textarea type="text" oninput='this.style.height = \"\";this.style.height = this.scrollHeight + \"px\"' class="form-control input-lg">${value}</textarea></td>
 </tr>`)
 			itemContainer.appendChild(element)
 		})

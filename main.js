@@ -68,7 +68,8 @@ app.whenReady().then(() => {
 			// preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true,
 			contextIsolation: false
-		}
+		},
+		center: true
 	})
 
 	mainWindow.on('closed', () => {
