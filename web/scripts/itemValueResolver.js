@@ -1,4 +1,4 @@
-class MainResolver {
+class MainValueResolver {
 	constructor() {
 		this.next = null
 	}
@@ -52,9 +52,9 @@ class ValueResolver {
 
 new ValueResolver('name', (value) => value[Object.keys(value).find(it => it.includes("str"))])
 
-itemResolver = new MainResolver()
+valueResolver = new MainValueResolver()
 ValueResolver.all.forEach((item) => {
-	itemResolver.add(item)
+	valueResolver.add(item)
 })
 
-module.exports = itemResolver
+module.exports = valueResolver

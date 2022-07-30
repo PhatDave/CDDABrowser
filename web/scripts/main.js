@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 	const electron = require('electron')
 	const ipcRenderer = electron.ipcRenderer
-	require('../scripts/itemResolver.js')
+	const valueResolver = require('../scripts/itemValueResolver.js')
+	const wrapperResolver = require('../scripts/itemValueWrapperResolver.js')
+	const ItemKeySorter = require('../scripts/itemKeySorter.js')
 
 	ipcRenderer.send('loaded')
 
@@ -20,13 +22,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		let itemContainer = document.querySelector('#itemDetailed tbody')
 		itemContainer.innerHTML = ''
 
-		Object.keys(data).forEach((key) => {
-			let value = itemResolver.resolve(key, data[key])
+		ItemKeySorter.sort(Object.keys(data)).forEach((key) => {
+			let value = valueResolver.resolve(key, data[key])
+			let valueHtmlWrapper = wrapperResolver.resolve(key, value)
+
 			// todo handle submits for the input
 			let element = htmlToElement(`<tr>
 	<td class="col-2">${key}</td>
-	<td class="col-10"><textarea type="text" oninput='this.style.height = \"\";this.style.height = this.scrollHeight + \"px\"' class="form-control input-lg">${value}</textarea></td>
+	<td class="col-10">${valueHtmlWrapper}</td>
 </tr>`)
+
 			itemContainer.appendChild(element)
 		})
 	})
