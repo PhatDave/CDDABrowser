@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-	const electron = require('electron');
-	const ipcRenderer = electron.ipcRenderer;
+	const electron = require('electron')
+	const ipcRenderer = electron.ipcRenderer
+	require('../scripts/itemResolver.js')
 
 	ipcRenderer.send('loaded')
 
@@ -13,14 +14,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			element.onclick = itemClickHandler
 			itemContainer.appendChild(element)
 		})
-	});
+	})
 
 	ipcRenderer.on('renderItem', (event, data) => {
 		let itemContainer = document.querySelector('#itemDetailed tbody')
 		itemContainer.innerHTML = ''
 
 		Object.keys(data).forEach((key) => {
-			let value = data[key]
+			let value = itemResolver.resolve(key, data[key])
 			let element = htmlToElement(`<tr>
 	<td class="col-2">${key}</td>
 	<td class="col-10">${value}</td>
@@ -44,9 +45,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	}
 
 	function htmlToElement(html) {
-		let template = document.createElement('template');
-		html = html.trim();
-		template.innerHTML = html;
-		return template.content.firstChild;
+		let template = document.createElement('template')
+		html = html.trim()
+		template.innerHTML = html
+		return template.content.firstChild
 	}
-});
+})
