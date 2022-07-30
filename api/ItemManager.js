@@ -22,10 +22,6 @@ class ItemManager {
 			itemRegistry.addItem(item)
 		})
 	}
-
-	serialize() {
-		return itemRegistry.serialize()
-	}
 }
 
 module.exports = ItemManager

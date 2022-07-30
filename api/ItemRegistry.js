@@ -11,36 +11,33 @@ class ItemRegistry {
 	}
 
 	addItem(item) {
-		// if (item.name === undefined) {
-		// 	console.log(item)
-		// }
 		if (this.blacklistedTypes.find(type => item.type === type)) {
 			return
 		}
-		if (item.name !== undefined) {
-			let allStr = Object.keys(item.name)
-			try {
-				this.itemNames[item.id] = item.name[allStr.find(it => it.includes("str"))]
-			} catch (TypeError) {
-				console.log(item)
-			}
-		}
-		if (this.itemNames[item.id] === undefined) {
-			console.log(item.id)
-		}
-
+		this.resolveName(item);
 		this.items.push(item)
 	}
 
-	findItem(id) {
+	resolveName(item) {
+		if (item.name !== undefined) {
+			let allStr = Object.keys(item.name)
+			this.itemNames[item.id] = item.name[allStr.find(it => it.includes("str"))]
+		}
+	}
+
+	getItem(id) {
 		return this.items.find(item => item.id === id)
 	}
 
-	serialize() {
-		let returnobj = {}
-		returnobj.items = this.items
-		returnobj.itemNames = this.itemNames
-		return returnobj
+	toList() {
+		const retItems = []
+		this.items.forEach(item => {
+			retItems.push({
+				id: item.id,
+				name: this.itemNames[item.id]
+			})
+		})
+		return retItems
 	}
 }
 

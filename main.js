@@ -86,11 +86,16 @@ app.on('window-all-closed', () => {
 // If mirko were to be assigned to module.exports it may not have any access modifier (const/let/var) for some reason
 let mirko = "C:\\Users\\Dave\\Desktop\\Cataclysm-DDA"
 module.exports = gameDir = mirko
-module.exports = itemRegistry = new ItemRegistry()
+itemRegistry = new ItemRegistry();
+module.exports = itemRegistry
 
 let itemManager = new ItemManager()
 
 ipcMain.on('loaded', () => {
 	mainWindow.toggleDevTools()
-	mainWindow.webContents.send('renderItems', itemManager.serialize())
+	mainWindow.webContents.send('renderItems', itemRegistry.toList())
+})
+
+ipcMain.on('itemClicked', (event, id) => {
+	mainWindow.webContents.send('renderItem', itemRegistry.getItem(id))
 })
