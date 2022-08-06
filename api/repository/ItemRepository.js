@@ -28,6 +28,9 @@ class ItemRepository {
 		})
 		let parsedData = JSON.parse(fileData)
 		parsedData.forEach((item) => {
+			if (item.id === undefined || item.id === null) {
+				return;
+			}
 			if (this.blacklistedTypes.find(type => item.type === type)) {
 				return
 			}
