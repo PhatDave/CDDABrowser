@@ -6,12 +6,10 @@ const Item = require("../entity/Item");
 class ItemRepository {
 	constructor() {
 		this.items = [];
-		this.#loadAll();
+		this.blacklistedTypes = ["ammunition_type",
+			"MIGRATION"]
 
-		this.blacklistedTypes = [
-			"ammunition_type",
-			"MIGRATION"
-		]
+		this.#loadAll();
 	}
 
 	#loadAll() {
@@ -42,5 +40,10 @@ class ItemRepository {
 	getAll() {
 		return this.items;
 	}
+
+	getById(id) {
+		return this.items.find(item => item.id === id);
+	}
 }
+
 module.exports = ItemRepository;
