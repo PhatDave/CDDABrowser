@@ -85,7 +85,7 @@ itemService = new ItemService();
 module.exports = itemService;
 
 ipcMain.on('loaded', () => {
-	mainWindow.toggleDevTools()
+	mainWindow.toggleDevTools();
 	mainWindow.webContents.send('renderItems', itemService.getItems());
 })
 

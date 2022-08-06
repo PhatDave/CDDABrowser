@@ -30,11 +30,10 @@ class ItemRepository {
 			}
 			let modName = modFolder.split(path.sep).pop();
 			let modFiles = getFilesRecursively(modFolder);
-			console.log(`modFolder = ${modFolder}`);
 
 			modFiles = modFiles.map(file => path.join(modsFolder, modName, file));
 			modFiles.map(file => {
-				if (file.includes('.json')) {
+				if (/.json$/.exec(file)) {
 					this.#loadFile(file, modName)
 				}
 			});
@@ -53,18 +52,27 @@ class ItemRepository {
 			console.log(`Error loading file ${file}`);
 			return;
 		}
-		parsedData.forEach((item) => {
-			if (item.id === undefined || item.id === null) {
-				return;
-			}
-			if (this.blacklistedTypes.find(type => item.type === type)) {
-				return
-			}
 
-			item = new Item(item);
-			item.source = source;
-			this.items.push(item)
-		})
+		if (parsedData.constructor === [].constructor) {
+			parsedData.forEach((item) => {
+				this.#parseItem(item, source);
+			})
+		} else if (parsedData.constructor === Object.constructor) {
+			this.#parseItem(parsedData, source);
+		}
+	}
+
+	#parseItem(item, source) {
+		if (item.id === undefined || item.id === null) {
+			return;
+		}
+		if (this.blacklistedTypes.find(type => item.type === type)) {
+			return
+		}
+
+		item = new Item(item);
+		item.source = source;
+		this.items.push(item)
 	}
 
 	getAll() {
