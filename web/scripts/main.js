@@ -5,58 +5,92 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	const wrapperResolver = require('../scripts/itemValueWrapperResolver.js');
 	const ItemKeySorter = require('../scripts/itemKeySorter.js');
 
-	ipcRenderer.send('loaded');
+	class UIController {
+		constructor() {
+			this.displayedItems = [];
 
-	ipcRenderer.on('renderItems', (event, data) => {
-		let itemContainer = document.querySelector('#itemContainer');
-		data.forEach((item) => {
-			let itemData = item.data;
-			let element = createTemplateElement();
-			element.querySelector('.id').textContent = itemData.id;
-			element.querySelector('.name').textContent = item.name;
-			element.onclick = itemClickHandler;
-			itemContainer.appendChild(element);
-		});
-	});
+			this.#setupIpc();
+			this.#setupEventListeners();
+		}
 
-	ipcRenderer.on('renderItem', (event, data) => {
-		let itemContainer = document.querySelector('#itemDetailed tbody');
-		itemContainer.innerHTML = '';
+		#setupIpc() {
+			ipcRenderer.send('loaded');
 
-		let itemData = data.data;
-		ItemKeySorter.sort(Object.keys(itemData)).forEach((key) => {
-			let value = valueResolver.resolve(key, itemData[key]);
-			let valueHtmlWrapper = wrapperResolver.resolve(key, value);
+			ipcRenderer.on('renderItems', (event, data) => {
+				data.forEach((item) => {
+					this.displayedItems.push(item);
+					this.addItem(item);
+				});
+			});
 
-			// todo handle submits for the input;
-			let element = htmlToElement(`<tr>
+			ipcRenderer.on('renderItem', (event, data) => {
+				let itemContainer = document.querySelector('#itemDetailed tbody');
+				itemContainer.innerHTML = '';
+
+				let itemData = data.data;
+				ItemKeySorter.sort(Object.keys(itemData)).forEach((key) => {
+					let value = valueResolver.resolve(key, itemData[key]);
+					let valueHtmlWrapper = wrapperResolver.resolve(key, value);
+
+					// todo handle submits for the input;
+					let element = this.htmlToElement(`<tr>
 	<td class="col-2">${key}</td>
 	<td class="col-10">${valueHtmlWrapper}</td>
 </tr>`);
 
-			itemContainer.appendChild(element);
-		});
-	});
+					itemContainer.appendChild(element);
+				});
+			});
+		}
 
-	function itemClickHandler(event, target) {
-		let id = event.target.parentElement.querySelector('.id').textContent;
-		ipcRenderer.send('itemClicked', id);
-	};
+		#setupEventListeners() {
+			// todo implement filterBy
+			document.querySelector('#itemSearch input').onkeyup = function(event) {
+				let search = event.target.value;
+				let filteredItems = displayedItems.filter((item) => {
+					return item.name.toLowerCase().includes(search.toLowerCase());
+				}).map((item) => {
+					return item.data;
+				});
+			}
+		}
 
-	function createTemplateElement() {
+		itemClickHandler(event, target) {
+			let id = event.target.parentElement.querySelector('.id').textContent;
+			ipcRenderer.send('itemClicked', id);
+		}
 
-		return htmlToElement(`<div class="item">
+		createTemplateElement() {
+
+			return this.htmlToElement(`<div class="item">
 	<div>
 		<div class="id" hidden></div>
 		<div class="name"></div>
 	</div>
 </div>`);
-	};
+		}
 
-	function htmlToElement(html) {
-		let template = document.createElement('template');
-		html = html.trim();
-		template.innerHTML = html;
-		return template.content.firstChild;
-	};
+		htmlToElement(html) {
+			let template = document.createElement('template');
+			html = html.trim();
+			template.innerHTML = html;
+			return template.content.firstChild;
+		}
+
+		addItem(item) {
+			let itemContainer = document.querySelector('#itemContainer');
+			let element = this.createTemplateElement();
+			let itemData = item.data;
+			element.querySelector('.id').textContent = itemData.id;
+			element.querySelector('.name').textContent = item.name;
+			element.onclick = this.itemClickHandler;
+			itemContainer.appendChild(element);
+		}
+
+		removeItem(id) {
+
+		}
+	}
+
+	let uiController = new UIController();
 });
