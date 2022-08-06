@@ -14,6 +14,10 @@ class ItemService {
 	getItem(id) {
 		return this.itemRepository.getById(id);
 	}
+
+	getItemsFilterBy(filter, column) {
+
+	}
 }
 
 module.exports = ItemService;

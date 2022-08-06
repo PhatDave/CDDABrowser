@@ -14,19 +14,45 @@ class ItemRepository {
 
 	#loadAll() {
 		let itemDir = path.join(gameDir, "data", "json", "items");
+		let modsFolder = path.join(gameDir, "data", "mods");
 
 		let files = getFilesRecursively(itemDir);
 		// todo also save relative path for writing mod later
 		files = files.map(file => path.join(itemDir, file));
-		files.map(file => this.#loadFile(file));
+		// Files from base game
+		files.map(file => this.#loadFile(file, "DDA"));
+
+		const dir = fs.readdirSync(modsFolder);
+		dir.forEach((item) => {
+			const modFolder = path.join(modsFolder, item);
+			if (fs.lstatSync(modFolder).isFile()) {
+				return;
+			}
+			let modName = modFolder.split(path.sep).pop();
+			let modFiles = getFilesRecursively(modFolder);
+			console.log(`modFolder = ${modFolder}`);
+
+			modFiles = modFiles.map(file => path.join(modsFolder, modName, file));
+			modFiles.map(file => {
+				if (file.includes('.json')) {
+					this.#loadFile(file, modName)
+				}
+			});
+		});
 	}
 
-	#loadFile(file) {
+	#loadFile(file, source) {
 		const fileData = fs.readFileSync(file, {
 			encoding: 'utf8',
 			flag: 'r'
 		})
-		let parsedData = JSON.parse(fileData)
+		let parsedData;
+		try {
+			parsedData = JSON.parse(fileData);
+		} catch (SyntaxError) {
+			console.log(`Error loading file ${file}`);
+			return;
+		}
 		parsedData.forEach((item) => {
 			if (item.id === undefined || item.id === null) {
 				return;
@@ -36,6 +62,7 @@ class ItemRepository {
 			}
 
 			item = new Item(item);
+			item.source = source;
 			this.items.push(item)
 		})
 	}
