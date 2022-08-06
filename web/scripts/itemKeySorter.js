@@ -1,5 +1,8 @@
 class ItemKeySorter {
 	// todo add a menu to edit this
+	// todo this can be on the backend hmm
+	// maybe it's better here though
+	// definitely do on backend and ten you acn have rest api thing
 	static order = ["id", "type", "name", "category", "description"]
 
 	static sort(keys) {
