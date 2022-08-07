@@ -1,5 +1,6 @@
 const path = require("path")
 const ItemService = require("./api/service/ItemService");
+const fs = require("fs");
 
 const app = require('electron').app
 const BrowserWindow = require('electron').BrowserWindow
@@ -79,10 +80,11 @@ app.on('window-all-closed', () => {
 
 // todo make this not hardcoded
 // If mirko were to be assigned to module.exports it may not have any access modifier (const/let/var) for some reason
-let mirko = "C:\\Users\\Dave\\Desktop\\Cataclysm-DDA"
-module.exports = gameDir = mirko;
-itemService = new ItemService();
+module.exports = gameDir = "C:\\Users\\Dave\\Desktop\\Cataclysm-DDA";
+itemService = new ItemService(fs.readFileSync('test.json', 'utf8'));
 module.exports = itemService;
+
+// fs.writeFileSync("test.json", JSON.stringify(itemService.getItems()));
 
 ipcMain.on('loaded', () => {
 	mainWindow.toggleDevTools();

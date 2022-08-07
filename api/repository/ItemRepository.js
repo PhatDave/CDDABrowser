@@ -4,12 +4,16 @@ const fs = require("fs");
 const Item = require("../entity/Item");
 
 class ItemRepository {
-	constructor() {
+	constructor(data = null) {
 		this.items = [];
 		this.blacklistedTypes = ["ammunition_type",
 			"MIGRATION"]
 
-		this.#loadAll();
+		if (data !== null) {
+			this.items = JSON.parse(data);
+		} else {
+			this.#loadAll();
+		}
 	}
 
 	#loadAll() {
