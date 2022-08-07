@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Title</title>
-		<script src="../scripts/main.js"></script>
-		<script src="../../node_modules/bootstrap/dist/js/bootstrap.js"></script>
-		<link href="../../node_modules/bootstrap/dist/css/bootstrap.css"
-		      rel="stylesheet">
-		<link href="../css/main.css" rel="stylesheet">
-	</head>
-	<body>
-		<div class="d-flex">
-			<div class="col-2">
-				<!-- Make as wide as col-2 -->
-				<div id="itemFilter">
-					<input type="text" placeholder="Filter" class="w-100">
-					<select name="By" class="w-100"></select>
-				</div>
-				<div id="itemContainer" class="overflow-scroll">
-				</div>
-			</div>
-			<div id="itemDetailed" class="col-10 overflow-scroll">
-				<table class="table">
-					<thead>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../scripts/main.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <link href="../../node_modules/bootstrap/dist/css/bootstrap.css"
+          rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row align-items-baseline justify-content-between">
+        <div class="col-4">
+            <div id="itemFilter" class="input-group">
+                <input type="text" placeholder="Filter" class="form-control w-100"/>
+                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                <datalist name="By" id="datalistOptions"></datalist>
+            </div>
+            <div id="itemContainer">
+            </div>
+        </div>
+        <div id="itemDetailed" class="col-8">
+            <table class="table">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
 </html>

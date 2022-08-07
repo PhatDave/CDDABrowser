@@ -1,3 +1,7 @@
 /*#itemContainer, #itemDetailed {*/
 /*    max-height: 100vh;*/
 /*}*/
+#itemContainer, #itemDetailed {
+    max-height: 90vh;
+    overflow-y: auto;
+}

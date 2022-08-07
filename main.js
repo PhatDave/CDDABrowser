@@ -81,8 +81,8 @@ app.on('window-all-closed', () => {
 // todo make this not hardcoded
 // If mirko were to be assigned to module.exports it may not have any access modifier (const/let/var) for some reason
 module.exports = gameDir = "C:\\Users\\Dave\\Desktop\\Cataclysm-DDA";
-// itemService = new ItemService(fs.readFileSync('cache.json', 'utf8'));
-itemService = new ItemService();
+itemService = new ItemService(fs.readFileSync('cache.json', 'utf8'));
+//itemService = new ItemService();
 module.exports = itemService;
 
 fs.writeFileSync("cache.json", JSON.stringify(itemService.getItems()));
