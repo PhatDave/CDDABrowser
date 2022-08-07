@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		});
 	});
 
+	// todo implement sortBy
 	// todo implement filterBy
 	document.querySelector('#itemFilter input').onkeyup = (event) => {
 		let filter = event.target.value;
