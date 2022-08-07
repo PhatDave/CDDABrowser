@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             itemContainer.appendChild(element);
         });
 
-        let select = document.querySelector('#itemFilter #datalistOptions');
+        let select = document.querySelector('#datalistOptions');
         let sortedKeys = Array.from(itemKeys).sort();
         sortedKeys.forEach((item) => {
             let option = htmlToElement(`<option value="${item}">${item}</option>`);
@@ -65,12 +65,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     function createTemplateItemElement() {
-        return htmlToElement(`<div class="item">
-	<div>
-		<div class="id" hidden></div>
-		<div class="name"></div>
+        return htmlToElement(`<li>
+	<div class="item">
+		<div>
+			<div class="id" hidden></div>
+			<div class="name"></div>
+		</div>
 	</div>
-</div>`);
+</li>`);
     }
 
     function htmlToElement(html) {

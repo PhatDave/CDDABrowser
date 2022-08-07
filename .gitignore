@@ -5,3 +5,4 @@ package-lock.json
 *.rar
 release-builds
 plan.md
+cache.json

@@ -3,8 +3,8 @@ const path = require("path");
 const getFilesRecursively = require("../utils");
 
 class ItemService {
-	constructor(data = null) {
-		this.itemRepository = new ItemRepository(data);
+	constructor() {
+		this.itemRepository = new ItemRepository();
 	}
 
 	getItems() {
