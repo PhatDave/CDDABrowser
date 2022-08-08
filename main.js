@@ -4,7 +4,7 @@ const UIManager = require("./UIManager");
 const ipcMain = require('electron').ipcMain
 
 uiManager = new UIManager();
-uiManager.buildUI().then(() => {
+uiManager.buildUI(false).then(() => {
 	let mainWindow = uiManager.mainWindow;
 
 	// todo make this not hardcoded
