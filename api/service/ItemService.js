@@ -1,19 +1,23 @@
-const ItemRepository = require("../repository/ItemRepository");
 const path = require("path");
 const getFilesRecursively = require("../utils");
+const Item = require("../entity/Item");
 
 class ItemService {
 	constructor() {
-		this.itemRepository = new ItemRepository();
+		this.items = [];
+	}
+
+	addItem(item) {
+		this.items.push(new Item(item));
 	}
 
 	getItems() {
-		return this.itemRepository.getAll();
+		return this.items;
 	}
 
 	getItem(id) {
-		return this.itemRepository.getById(id);
+		return this.items.find(item => item.id === id);
 	}
 }
 
-module.exports = ItemService;
+module.exports = ItemService
