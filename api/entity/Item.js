@@ -1,7 +1,7 @@
 class Item {
-	constructor(data) {
+	constructor(data, source) {
 		this.name = "";
-		this.source = null;
+		this.source = source;
 		this.data = data;
 
 		this.resolveName();
